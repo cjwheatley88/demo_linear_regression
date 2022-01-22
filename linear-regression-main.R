@@ -16,22 +16,43 @@ class(dat)
 str(dat)
 summary(dat)
 
-#cleaining - 177 Age NAs..... replace NAs with ages matching train distribution.
+#Visualize NA data and compare to Training Data Set.
+
+NA_dat <- dat %>%  filter(is.na(dat$Age) == TRUE)
+NA_dat %>% ggplot(aes(x = Pclass, fill = Sex)) +
+  geom_bar() +
+  facet_grid(.~ Survived) +
+  labs(title = "NA Data")
+
+dat %>% ggplot(aes(x = Pclass, fill = Sex)) +
+  geom_bar() +
+  facet_grid(.~ Survived) +
+  labs(title = "Training Data")
+
+#
+
 dat %>% ggplot() +
   geom_histogram(aes(Age),na.rm = TRUE,binwidth = 2) +
   labs(title = "Age Distribution")
 
 #replicate and sample training data to create Mean age and SD.
 #use these figures to randomly create 177 ages for missing data.
-n = 10000
-b = 1000
-age_fix <- replicate( {
-  na.omit(dat$Age)
-  sample(dat$Age,b,replace = TRUE)
-  mean()
-  sd()
+
+age_fix <- na.omit(dat$Age)
+
+N <- 1000
+
+sample_distribution <- replicate(N, {
+  s <- sample(age_fix, size = 891, replace = TRUE)
+  m <- mean(s)
 })
 
+X_hat <- mean(sample_distribution)
+standard_dev <- sd(sample_distribution)
+age_fix_input <- rnorm(179, mean = X_hat, sd = standard_dev)
+
+head(sample_distribution)
+hist(sample_distribution)
 
 #allocate 10% of training data for cross validation of training model.
 dim(dat)
