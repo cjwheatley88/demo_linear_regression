@@ -1,17 +1,20 @@
 library(tidyverse)
 library(dplyr)
+library(broom)
 
-#linear regression flow:
-#theory on correlation and hypothesis 
-#visualize correlation and overlay hypothesis
-#theory on error
-#visualize error
-#theory on error reduction through iteration or math
-#demonstrate with code
-#demonstrate with preexisting vectorised tools
+#read in files
 
-#source data.. House prices project....?
+dat_train_path <- file.path("~/data_projects/demo_linear_regression/house_prices_train.csv")
 
+dat_train <- read.csv(file = dat_train_path)
+
+dat_test_path <- file.path("~/data_projects/demo_linear_regression/house_prices_test.csv")
+
+#dat_test <- read.csv(file = dat_test_path)
+
+str(dat_train)
+
+summary(dat_train)
 
 
 
